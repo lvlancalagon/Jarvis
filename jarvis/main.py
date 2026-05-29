@@ -9,6 +9,10 @@ from jarvis.engine import JarvisEngine
 def main():
     engine = JarvisEngine()
     print("--- JARVIS: Система инициализирована ---")
+
+    # Initial status report
+    initial_status = engine.handle_interaction("статус", voice_enabled=False)
+    print(f"JARVIS: {initial_status}")
     print("Тип: 'выход' для завершения.")
 
     while engine.is_active:
@@ -19,7 +23,8 @@ def main():
 
             response = engine.handle_interaction(user_input)
             print(f"JARVIS: {response}")
-            print("(Голосовой ответ сохранен в response.mp3)")
+            if "response.mp3" in os.listdir("."):
+                print("(Голосовой ответ сохранен в response.mp3)")
 
         except KeyboardInterrupt:
             print("\nJARVIS: Экстренное завершение работы.")
