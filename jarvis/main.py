@@ -9,6 +9,7 @@ from jarvis.engine import JarvisEngine
 def main():
     engine = JarvisEngine()
     print("--- JARVIS: Система инициализирована ---")
+    print("Статус: Ожидаю команд по тестированию или YouTube-контенту.")
 
     # Initial status report
     initial_status = engine.handle_interaction("статус", voice_enabled=False)

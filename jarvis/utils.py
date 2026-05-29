@@ -23,17 +23,16 @@ def get_time_info():
 def get_greeting():
     hour = datetime.datetime.now().hour
     if 5 <= hour < 12:
-        return "Доброе утро, сэр."
+        return "Доброе утро, сэр. Готовы к тестированию или новому контенту?"
     elif 12 <= hour < 18:
-        return "Добрый день, сэр."
+        return "Добрый день, сэр. Каналы растут, системы стабильны."
     elif 18 <= hour < 23:
-        return "Добрый вечер, сэр."
+        return "Добрый вечер, сэр. Время для монтажа или проверки багов?"
     else:
-        return "Доброй ночи, сэр. Работаете допоздна?"
+        return "Доброй ночи, сэр. Ночной рендеринг или поиск критических багов?"
 
 def check_network():
     try:
-        # Check if we can connect to a common DNS server
         socket.create_connection(("8.8.8.8", 53), timeout=3)
         return True
     except OSError:
@@ -53,10 +52,58 @@ def get_project_summary(path="."):
             summary.append(f"{sub_indent}{f} ({size} KB)")
     return "\n".join(summary)
 
-if __name__ == "__main__":
-    print(f"Stats: {get_system_stats()}")
-    print(f"Time: {get_time_info()}")
-    print(f"Greeting: {get_greeting()}")
-    print(f"Network: {'Online' if check_network() else 'Offline'}")
-    print("Project Summary:")
-    print(get_project_summary())
+def get_testing_checklists():
+    return {
+        "UI/UX": [
+            "Проверить адаптивность под разные разрешения",
+            "Проверить отображение шрифтов и иконок",
+            "Проверить кликабельность всех кнопок и ссылок",
+            "Проверить контрастность и читаемость текста"
+        ],
+        "Functional": [
+            "Проверить формы регистрации и логина",
+            "Проверить поиск по сайту",
+            "Проверить работу корзины и оплаты",
+            "Проверить валидацию полей ввода"
+        ],
+        "Cross-Browser": [
+            "Проверить в Chrome, Firefox, Safari, Edge",
+            "Проверить мобильные версии (iOS, Android)"
+        ]
+    }
+
+def get_youtube_ideas():
+    return {
+        "Garry's Mod": {
+            "Ideas": [
+                "Топ 10 хоррор карт в GMod",
+                "Эксперименты с физикой: 1000 NPC vs 1 игрок",
+                "Строительство секретной базы в GMod"
+            ],
+            "Tags": "gmod, garrys mod, sandbox, гмод, песочница"
+        },
+        "Sprunki": {
+            "Ideas": [
+                "Sprunki: Все секретные комбинации звуков",
+                "Sprunki Incredibox: Создание идеального микса",
+                "Sprunki: Эволюция персонажей"
+            ],
+            "Tags": "sprunki, incredibox, music, game, спрунки"
+        },
+        "Italian Brainrot": {
+            "Ideas": [
+                "Italian Brainrot Compilation #1",
+                "Why Italian Brainrot is taking over YouTube",
+                "Memes you only understand in Italy (Brainrot Edition)"
+            ],
+            "Tags": "italian brainrot, memes, brainrot, tiktok, youtube shorts"
+        }
+    }
+
+def get_channel_management_tips():
+    return [
+        "Используйте разные профили браузера для каждого канала",
+        "Планируйте публикации заранее через творческую студию",
+        "Оптимизируйте метаданные (теги, описание) для каждого видео",
+        "Следите за аналитикой удержания аудитории"
+    ]

@@ -1,4 +1,8 @@
-from jarvis.utils import get_system_stats, get_time_info, get_greeting, check_network, get_project_summary
+from jarvis.utils import (
+    get_system_stats, get_time_info, get_greeting, check_network,
+    get_project_summary, get_testing_checklists, get_youtube_ideas,
+    get_channel_management_tips
+)
 from jarvis.voice import speak
 
 class JarvisEngine:
@@ -21,6 +25,28 @@ class JarvisEngine:
                         f"Сетевое соединение: {net}.")
             return response
 
+        elif "тестирование" in command or "чек-лист" in command:
+            checklists = get_testing_checklists()
+            response = "Подготовил чек-листы для мануального тестирования, сэр:\n"
+            for category, items in checklists.items():
+                response += f"\n--- {category} ---\n"
+                response += "\n".join([f"- {item}" for item in items])
+            return response
+
+        elif "контент" in command or "ютуб" in command or "идеи" in command:
+            ideas = get_youtube_ideas()
+            response = "Анализ трендов для ваших каналов завершен, сэр:\n"
+            for topic, data in ideas.items():
+                response += f"\n[{topic}]\nИдеи: " + ", ".join(data['Ideas'])
+                response += f"\nТеги: {data['Tags']}\n"
+            return response
+
+        elif "канал" in command or "совет" in command:
+            tips = get_channel_management_tips()
+            response = "Советы по управлению сеткой каналов, сэр:\n"
+            response += "\n".join([f"• {tip}" for tip in tips])
+            return response
+
         elif "проект" in command or "файлы" in command:
             summary = get_project_summary()
             return f"Анализ структуры проекта завершен, сэр:\n{summary}"
@@ -30,7 +56,9 @@ class JarvisEngine:
             return f"Текущее время: {time_str}. Дата: {date_str}."
 
         elif "кто ты" in command:
-            return "Я — ДЖАРВИС. Ваш персональный цифровой помощник. К вашим услугам, сэр."
+            return ("Я — ДЖАРВИС. Ваш персональный цифровой помощник. "
+                    "Я помогаю вам с тестированием сайтов и развитием ваших YouTube каналов "
+                    "по тематикам GMod, Sprunki и Italian Brainrot. К вашим услугам, сэр.")
 
         elif "протокол" in command:
             if "вечеринка" in command or "house party" in command:
@@ -47,11 +75,11 @@ class JarvisEngine:
             query = command.replace("поиск", "").replace("узнай", "").replace("найди", "").strip()
             if not query:
                 return "Что именно вы хотите найти, сэр?"
-            return f"Выполняю поиск по запросу: '{query}'. По моим данным, это требует подключения к глобальной сети. Поиск завершен."
+            return f"Выполняю поиск по запросу: '{query}'. Поиск завершен."
 
         elif "прощай" in command or "пока" in command or "выход" in command:
             self.is_active = False
-            return "Отключаюсь. Всего доброго, сэр."
+            return "Отключаюсь. Удачного тестирования и успешных стримов, сэр."
 
         else:
             return "Я не совсем вас понял, сэр. Могу я чем-то еще помочь?"
@@ -59,7 +87,6 @@ class JarvisEngine:
     def handle_interaction(self, user_input, voice_enabled=True):
         response = self.process_command(user_input)
         if voice_enabled:
-            # For long responses (like project summary), we might want to speak only a part or a summary
             speech_text = response.split('\n')[0] if '\n' in response else response
             speak(speech_text)
         return response
